@@ -41,11 +41,21 @@ module.exports = {
                 ]
             },
             // CSS loader
+            
             {
                 test: /\.(css)$/,
                 use: [
                     {loader: 'style-loader'},
                     {loader: 'css-loader'}
+                ]
+            },
+            // SCSS processing
+            {
+                test: /\.(scss)$/,
+                use: [
+                    {loader: 'style-loader'},
+                    {loader: 'css-loader'},
+                    {loader: 'sass-loader'}
                 ]
             }
         ]
