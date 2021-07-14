@@ -65,5 +65,9 @@ module.exports = {
             (browser is caching css, and if the name is the same in each build, it might not update it), 
             therefore we make it unique for each build with [hash:8] */
         })
-    ]
+    ],
+
+    devServer: {
+        open: true // automatically opening the browser after build
+    }
 };
