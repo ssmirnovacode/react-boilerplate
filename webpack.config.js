@@ -4,7 +4,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.png$/,  //choosing files to be processed by this loader
+                test: /\.(png|jpg|jpeg|gif|ico)$/,  //choosing files to be processed by this loader
                 use: [ // array, each elem of which describes a loader and its config
                     {
                         loader: 'file-loader',
@@ -14,6 +14,19 @@ module.exports = {
                         }
                     }
                     //there might be more loaders in this array
+                ]
+            },
+            {
+                test: /\.(ttf|otf|eot|woff|woff2)$/,  //fonts extensions
+                use: [ 
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            outputPath: 'fonts', 
+                            name: '[name]-[sha1:hash:7].[ext]'
+                        }
+                    }
+                    
                 ]
             }
         ]
