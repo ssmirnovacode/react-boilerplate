@@ -7,13 +7,9 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: [
-                    {
-                        loader: 'babel-loader'
-                    }
-                ]
+                loader: 'babel-loader' // shorter syntax
             },
-
+            //images loader
             {
                 test: /\.(png|jpg|jpeg|gif|ico)$/,  //choosing files to be processed by this loader
                 use: [ // array, each elem of which describes a loader and its config
@@ -27,6 +23,7 @@ module.exports = {
                     //there might be more loaders in this array
                 ]
             },
+            //Fonts loader
             {
                 test: /\.(ttf|otf|eot|woff|woff2)$/,  //fonts extensions
                 use: [ 
@@ -44,19 +41,12 @@ module.exports = {
             
             {
                 test: /\.(css)$/,
-                use: [
-                    {loader: 'style-loader'},
-                    {loader: 'css-loader'}
-                ]
+                use: ['style-loader', 'css-loader'] // shorter syntax
             },
             // SCSS processing
             {
                 test: /\.(scss)$/,
-                use: [
-                    {loader: 'style-loader'},
-                    {loader: 'css-loader'},
-                    {loader: 'sass-loader'}
-                ]
+                use: [ 'style-loader', 'css-loader', 'sass-loader'] // shorter syntax
             }
         ]
     }
