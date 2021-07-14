@@ -3,6 +3,17 @@ module.exports = {
 
     module: {
         rules: [
+            // babel-loader to work with React ( processing JSX )
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader'
+                    }
+                ]
+            },
+
             {
                 test: /\.(png|jpg|jpeg|gif|ico)$/,  //choosing files to be processed by this loader
                 use: [ // array, each elem of which describes a loader and its config
