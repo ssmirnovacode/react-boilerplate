@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin =require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: "development",
@@ -42,12 +43,12 @@ module.exports = {
             // CSS loader           
             {
                 test: /\.(css)$/,
-                use: ['style-loader', 'css-loader'] // shorter syntax
+                use: [MiniCssExtractPlugin.loader, 'css-loader'] // shorter syntax
             },
             // SCSS processing
             {
                 test: /\.(scss)$/,
-                use: [ 'style-loader', 'css-loader', 'sass-loader'] // shorter syntax
+                use: [ MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] // shorter syntax
             }
         ]
     },
@@ -57,6 +58,12 @@ module.exports = {
             title: 'My customized React app',
             buildTime: new Date().toString(),
             template: 'public/index.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'main-[hash:8].css' // specifying the name of output file 
+            /* main.css is default but not very fortunate:
+            (browser is caching css, and if the name is the same in each build, it might not update it), 
+            therefore we make it unique for each build with [hash:8] */
         })
     ]
 };
