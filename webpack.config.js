@@ -1,9 +1,9 @@
-const HtmlWebpackPlugin =require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, options) => {
 
-    const { mode = 'development'} = options; // default
+    const { mode = 'development'} = options; 
 
     const isProd = mode === 'production';
     const isDev = mode === 'development';
@@ -24,8 +24,8 @@ module.exports = (env, options) => {
         ];
         if (isProd) {
             plugins.push(new MiniCssExtractPlugin({
-                filename: isProd ? "main-[hash:8].css" :'main.css' // specifying the name of output file 
-                /* main.css is default, alternative foe testing 'main-[hash:8].css':
+                filename: "main-[hash:8].css"  
+                /* main.css is default, alternative for testing 'main-[hash:8].css':
                 (browser is caching css, and if the name is the same in each build, it might not update it), 
                 therefore we make it unique for each build with [hash:8] */
             }));
@@ -35,29 +35,28 @@ module.exports = (env, options) => {
     }
 
     return {
-        mode: isProd ? 'production' : isDev && 'development', // else it will be false and settings won´t be applied
+        mode: isProd ? 'production' : isDev && 'development', // else it will be false and settings apply
 
-        //Specifying output js file name:
         output: {
             filename: isProd ? "main-[hash:8].js" : 'main.js' // undefined - webpack will use default name
         },
 
         module: {
             rules: [
-                // babel-loader to work with React ( processing JSX )
+                // babel-loader for React ( JSX )
                 {
                     test: /\.js$/,
                     exclude: /node_modules/,
-                    loader: 'babel-loader' // shorter syntax
+                    loader: 'babel-loader' // shorter syntax without 'use' array
                 },
-                //images loader
+                //Images loader
                 {
-                    test: /\.(png|jpg|jpeg|gif|ico)$/,  //choosing files to be processed by this loader
-                    use: [ // array, each elem of which describes a loader and its config
+                    test: /\.(png|jpg|jpeg|gif|ico)$/,  
+                    use: [ 
                         {
                             loader: 'file-loader',
                             options: {
-                                outputPath: 'images', // to save processed images to this folder
+                                outputPath: 'images', 
                                 name: '[name]-[sha1:hash:7].[ext]' //original name + '-' +  first 7 symbols of hashed name
                             }
                         }
@@ -66,7 +65,7 @@ module.exports = (env, options) => {
                 },
                 //Fonts loader
                 {
-                    test: /\.(ttf|otf|eot|woff|woff2)$/,  //fonts extensions
+                    test: /\.(ttf|otf|eot|woff|woff2)$/, 
                     use: [ 
                         {
                             loader: 'file-loader',
@@ -83,7 +82,7 @@ module.exports = (env, options) => {
                     test: /\.(css)$/,
                     use: getStyleLoaders()
                 },
-                // SCSS processing
+                // SCSS loader 
                 {
                     test: /\.(scss)$/,
                     use: [ ...getStyleLoaders(), 'sass-loader'] 
@@ -94,7 +93,7 @@ module.exports = (env, options) => {
         plugins: getPlugins(),
     
         devServer: {
-            open: true // automatically opening the browser after build
+            open: true // automatically opening the browser after npm start (npx webpack serve)
         }
     }
 };
