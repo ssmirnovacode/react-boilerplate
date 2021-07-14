@@ -8,8 +8,39 @@ module.exports = (env, options) => {
     const isProd = mode === 'production';
     const isDev = mode === 'development';
 
+    const getStyleLoaders = () => {
+        return [
+            isProd ? MiniCssExtractPlugin.loader : 'style-loader, css-loader'
+        ];
+    };
+
+    const getPlugins = () => {
+        const plugins = [
+            new HtmlWebpackPlugin({
+                title: 'My customized React app',
+                buildTime: new Date().toString(),
+                template: 'public/index.html'
+            })
+        ];
+        if (isProd) {
+            plugins.push(new MiniCssExtractPlugin({
+                filename: isProd ? "main-[hash:8].css" :'main.css' // specifying the name of output file 
+                /* main.css is default, alternative foe testing 'main-[hash:8].css':
+                (browser is caching css, and if the name is the same in each build, it might not update it), 
+                therefore we make it unique for each build with [hash:8] */
+            }));
+        }
+
+        return plugins;
+    }
+
     return {
         mode: isProd ? 'production' : isDev && 'development', // else it will be false and settings won´t be applied
+
+        //Specifying output js file name:
+        output: {
+            filename: isProd ? "main-[hash:8].js" : 'main.js' // undefined - webpack will use default name
+        },
 
         module: {
             rules: [
@@ -50,29 +81,17 @@ module.exports = (env, options) => {
                 // CSS loader           
                 {
                     test: /\.(css)$/,
-                    use: [MiniCssExtractPlugin.loader, 'css-loader'] // shorter syntax
+                    use: getStyleLoaders()
                 },
                 // SCSS processing
                 {
                     test: /\.(scss)$/,
-                    use: [ MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] // shorter syntax
+                    use: [ ...getStyleLoaders(), 'sass-loader'] 
                 }
             ]
         },
     
-        plugins: [
-            new HtmlWebpackPlugin({
-                title: 'My customized React app',
-                buildTime: new Date().toString(),
-                template: 'public/index.html'
-            }),
-            new MiniCssExtractPlugin({
-                filename: 'main.css' // specifying the name of output file 
-                /* main.css is default, alternative foe testing 'main-[hash:8].css':
-                (browser is caching css, and if the name is the same in each build, it might not update it), 
-                therefore we make it unique for each build with [hash:8] */
-            })
-        ],
+        plugins: getPlugins(),
     
         devServer: {
             open: true // automatically opening the browser after build
