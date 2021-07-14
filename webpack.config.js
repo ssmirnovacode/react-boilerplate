@@ -54,6 +54,8 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
+            title: 'My customized React app',
+            buildTime: new Date().toString(),
             template: 'public/index.html'
         })
     ]
