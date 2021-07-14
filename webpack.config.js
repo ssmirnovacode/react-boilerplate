@@ -1,3 +1,5 @@
+const HtmlWebpackPlugin =require('html-webpack-plugin');
+
 module.exports = {
     mode: "development",
 
@@ -37,8 +39,7 @@ module.exports = {
                     
                 ]
             },
-            // CSS loader
-            
+            // CSS loader           
             {
                 test: /\.(css)$/,
                 use: ['style-loader', 'css-loader'] // shorter syntax
@@ -49,5 +50,11 @@ module.exports = {
                 use: [ 'style-loader', 'css-loader', 'sass-loader'] // shorter syntax
             }
         ]
-    }
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'public/index.html'
+        })
+    ]
 };
